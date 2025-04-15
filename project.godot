@@ -30,3 +30,7 @@ window/stretch/aspect="expand"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_asset_loader/plugin.cfg")
+
+[input_devices]
+
+pointing/emulate_mouse_from_touch=false

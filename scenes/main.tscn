@@ -1,8 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctkn0u6itdvor"]
+[gd_scene load_steps=17 format=3 uid="uid://ctkn0u6itdvor"]
 
+[ext_resource type="Script" uid="uid://fgmah8byff87" path="res://scenes/main.gd" id="1_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://dir0hfmehfy0m" path="res://assets/prototype_textures/Dark/texture_08.png" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bq4ldg8bhdd7o" path="res://scenes/metrocop.tscn" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://ujh51l2wv1vk" path="res://addons/3d_player_controller/player_3d.tscn" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://gx3uhqfpceb2" path="res://scenes/trashcan.tscn" id="6_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://dsqrc0ugjp8sd" path="res://scenes/retro_pepsi_can.tscn" id="6_tefeu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tbgi4"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -22,7 +25,29 @@ albedo_texture = ExtResource("1_o5qli")
 uv1_scale = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_sugp2"]
+size = Vector3(0.25, 1, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sugp2"]
+albedo_color = Color(0.294118, 0.298039, 0.321569, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jyhfs"]
+material = SubResource("StandardMaterial3D_sugp2")
+size = Vector3(0.22, 1, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbgi4"]
+albedo_color = Color(0.766443, 0, 0.157261, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tefeu"]
+material = SubResource("StandardMaterial3D_tbgi4")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jyhfs"]
+
 [node name="Main" type="Node3D"]
+script = ExtResource("1_jyhfs")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -32,12 +57,42 @@ shadow_enabled = true
 environment = SubResource("Environment_o6xl0")
 
 [node name="Ground" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 material_override = SubResource("StandardMaterial3D_0wfyh")
 use_collision = true
-size = Vector3(16, 0.01, 16)
+size = Vector3(16, 1, 16)
 
 [node name="Metrocop" parent="." instance=ExtResource("2_sugp2")]
+transform = Transform3D(1, 0, 0, 0, 1, -2.98023e-08, 0, 2.98023e-08, 1, 0.00177526, 2.38419e-07, -1.99558)
 
 [node name="Player" parent="." instance=ExtResource("3_jyhfs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="RetroPepsiCan" parent="." instance=ExtResource("6_tefeu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68571, 0.9, -2)
+
+[node name="Trashcan" parent="." instance=ExtResource("6_o6xl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+
+[node name="Button" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Button"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_sugp2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Button"]
+transform = Transform3D(0.999997, 0, 0.00232129, 0, 1, 0, -0.00232129, 0, 0.999997, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_jyhfs")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Button"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CylinderMesh_tefeu")
+
+[node name="Area3D" type="Area3D" parent="Button"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Button/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[connection signal="body_entered" from="Button/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Button/Area3D" to="." method="_on_area_3d_body_exited"]
