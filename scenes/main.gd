@@ -5,6 +5,11 @@ var in_button_range := false
 @onready var player: CharacterBody3D = $Player
 
 
+func _ready() -> void:
+	player.camera.switch_to_first_person()
+	
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("use") \
 	and player.raycast_middle.is_colliding() \
