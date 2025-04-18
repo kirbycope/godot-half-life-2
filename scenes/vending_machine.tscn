@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk072a3i84la1"]
+
+[ext_resource type="PackedScene" uid="uid://brwvx8t33hhh8" path="res://assets/vending_machine/vendingmachinesoda01a.gltf" id="1_b56hl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ehe3j"]
+size = Vector3(0.818787, 1.83184, 0.990845)
+
+[node name="VendingMachine" type="StaticBody3D"]
+
+[node name="vendingmachinesoda01a" parent="." instance=ExtResource("1_b56hl")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000335693, -0.00107434, 0.000305176)
+shape = SubResource("BoxShape3D_ehe3j")

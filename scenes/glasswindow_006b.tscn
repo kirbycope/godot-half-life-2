@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://clniaqawk3va3"]
+
+[ext_resource type="Texture2D" uid="uid://o5hjh7gsssnx" path="res://assets/textures/glasswindow006b_3.png" id="1_rwigu"]
+[ext_resource type="Texture2D" uid="uid://chnmbe0ekhyh4" path="res://assets/textures/glasswindow006b_2.png" id="2_c26rj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c26rj"]
+albedo_texture = ExtResource("1_rwigu")
+backlight_enabled = true
+backlight = Color(1, 1, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a8x8m"]
+material = SubResource("StandardMaterial3D_c26rj")
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rwigu"]
+transparency = 2
+alpha_scissor_threshold = 0.01
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("2_c26rj")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4632y"]
+material = SubResource("StandardMaterial3D_rwigu")
+orientation = 2
+
+[node name="glasswindow006b" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_a8x8m")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_4632y")
